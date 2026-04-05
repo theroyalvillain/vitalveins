@@ -1,0 +1,37 @@
+<svg width="720" height="520" viewBox="0 0 720 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="720" y2="520" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffcedb" />
+      <stop offset="1" stop-color="#ff8ca8" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0" y1="0" x2="720" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ff3b5f" />
+      <stop offset="1" stop-color="#ff7bab" />
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="720" height="520" rx="40" fill="url(#bgGrad)" />
+  <rect x="28" y="28" width="664" height="464" rx="28" fill="rgba(255,255,255,0.15)" />
+  <rect x="28" y="28" width="664" height="120" rx="28" fill="url(#accentGrad)" />
+  <circle cx="110" cy="88" r="28" fill="#fff" opacity="0.9" />
+  <path d="M108 66C94 66 82 78 82 92C82 110 108 140 108 140C108 140 134 110 134 92C134 78 122 66 108 66Z" fill="#ff3b5f" />
+  <path d="M96 92C96 82 102 76 108 76C114 76 120 82 120 92C120 102 108 117 108 117C108 117 96 102 96 92Z" fill="#fff" opacity="0.75" />
+  <text x="228" y="70" fill="#fff" font-family="Inter, sans-serif" font-size="34" font-weight="800">Vital Veins</text>
+  <text x="228" y="110" fill="#ffe5ed" font-family="Inter, sans-serif" font-size="18" letter-spacing="0.2em">BLOOD DONATION CERTIFICATE</text>
+  <rect x="40" y="170" width="640" height="18" rx="9" fill="rgba(255,255,255,0.28)" />
+  <text x="60" y="225" fill="#fff" font-family="Inter, sans-serif" font-size="22" font-weight="700">Donor name:</text>
+  <text x="60" y="265" fill="#ffe6f1" font-family="Inter, sans-serif" font-size="20">Priya K. (A+)</text>
+  <text x="60" y="315" fill="#fff" font-family="Inter, sans-serif" font-size="22" font-weight="700">Approved by:</text>
+  <text x="60" y="355" fill="#ffe6f1" font-family="Inter, sans-serif" font-size="20">City Care Blood Bank</text>
+  <path d="M60 380H660" stroke="rgba(255,255,255,0.24)" stroke-width="3" />
+  <text x="60" y="425" fill="#fff" font-family="Inter, sans-serif" font-size="22" font-weight="700">Reference code:</text>
+  <text x="60" y="465" fill="#ffedf2" font-family="Inter, sans-serif" font-size="24" font-weight="800">CERT-0000</text>
+  <g opacity="0.9">
+    <rect x="456" y="182" width="212" height="208" rx="20" fill="rgba(255,255,255,0.14)" />
+    <path d="M478 222H590" stroke="#fff" stroke-width="10" stroke-linecap="round" />
+    <path d="M478 262H616" stroke="#fff" stroke-width="10" stroke-linecap="round" />
+    <path d="M478 302H590" stroke="#fff" stroke-width="10" stroke-linecap="round" />
+    <path d="M478 342H616" stroke="#fff" stroke-width="10" stroke-linecap="round" />
+  </g>
+  <path d="M560 420C560 420 524 388 524 352C524 330 542 310 572 310C602 310 620 330 620 352C620 388 588 420 560 420Z" fill="#fff" />
+  <path d="M548 372C548 360 558 348 572 348C586 348 596 360 596 372C596 380 587 393 572 393C557 393 548 380 548 372Z" fill="#ff3b5f" />
+</svg>

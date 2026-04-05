@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vital Veins - Blood Donation Network</title>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo" aria-label="Vital Veins logo">
+          <svg viewBox="0 0 80 80" width="40" height="40" aria-hidden="true">
+            <defs>
+              <linearGradient id="dropGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ff3b5f" />
+                <stop offset="100%" stop-color="#ff88b8" />
+              </linearGradient>
+            </defs>
+            <path d="M40 8C40 8 18 33 18 51C18 67 28.7 78 40 78C51.3 78 62 67 62 51C62 33 40 8 40 8Z" fill="url(#dropGrad)" />
+          </svg>
+        </div>
+        <div>
+          <h1>Vital Veins</h1>
+          <p>Centralized blood donation & emergency coordination</p>
+        </div>
+      </div>
+      <nav>
+        <button class="nav-link active" id="navHome" data-page="home">Home</button>
+        <button class="nav-link" id="navDonate" data-page="donate">Donate Blood</button>
+        <button class="nav-link" id="navNeed" data-page="need">Need Blood</button>
+        <div class="nav-spacer"></div>
+        <button class="nav-button" id="openLoginBtn">Log In</button>
+        <button class="nav-button secondary" id="openSignupBtn">Sign Up</button>
+        <button class="nav-button logout-btn hidden" id="logoutTopBtn">Log Out</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">Empower lives in every heartbeat</span>
+          <h2>Real-time blood availability, faster coordination, and trusted donor support.</h2>
+          <p>Vital Veins connects donors, recipients, hospitals, and blood banks in a single system to reduce emergency delays and improve outcomes.</p>
+          <div class="hero-illustration left-illustration" aria-hidden="true">
+            <svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="bloodGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#ff3b5f" />
+                  <stop offset="100%" stop-color="#ff8bb4" />
+                </linearGradient>
+                <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+                  <stop offset="100%" stop-color="#ffe1ea" stop-opacity="0.8" />
+                </linearGradient>
+              </defs>
+              <rect x="0" y="0" width="480" height="360" rx="32" fill="rgba(255,255,255,0.06)" />
+              <path d="M190 130C190 84 166 54 130 54C94 54 70 84 70 130C70 188 150 252 190 298C230 252 310 188 310 130C310 84 286 54 250 54C214 54 190 84 190 130Z" fill="url(#bloodGrad)" />
+              <path d="M180 148C180 116 157 96 130 96C103 96 80 116 80 148C80 177 112 206 130 226C148 206 180 177 180 148Z" fill="#fff" opacity="0.28" />
+              <path d="M310 220C310 188 286 168 260 168C234 168 210 188 210 220C210 249 242 278 260 298C278 278 310 249 310 220Z" fill="url(#bloodGrad)" />
+              <path d="M102 260C124 220 170 198 212 206C248 214 288 246 304 280" stroke="#fff" stroke-width="18" stroke-linecap="round" fill="none" opacity="0.9" />
+              <path d="M164 190C178 170 206 166 226 184C246 202 272 180 292 170" stroke="#fff" stroke-width="14" stroke-linecap="round" fill="none" opacity="0.85" />
+              <path d="M128 100C140 90 167 90 182 105" stroke="#fff" stroke-width="12" stroke-linecap="round" />
+              <circle cx="360" cy="100" r="34" fill="#ff7aa0" opacity="0.82" />
+              <path d="M347 92L364 108" stroke="#fff" stroke-width="8" stroke-linecap="round" />
+              <path d="M364 92L347 108" stroke="#fff" stroke-width="8" stroke-linecap="round" />
+              <text x="360" y="147" font-family="Inter, sans-serif" font-size="22" fill="#fff" text-anchor="middle">24/7</text>
+            </svg>
+          </div>
+        </div>
+        <div class="hero-panel">
+          <div class="stats-grid">
+            <article>
+              <h3>8,956+</h3>
+              <p>Total Donors</p>
+            </article>
+            <article>
+              <h3>5,900+</h3>
+              <p>Lives Saved</p>
+            </article>
+            <article>
+              <h3>12,400</h3>
+              <p>Units Available</p>
+            </article>
+            <article>
+              <h3>24/7</h3>
+              <p>Emergency support</p>
+            </article>
+          </div>
+          <div class="blood-stock">
+            <h4>Network Blood Stock</h4>
+            <div class="stock-row"><span>A+</span><span>2,100 U</span></div>
+            <div class="stock-row"><span>A-</span><span>840 U</span></div>
+            <div class="stock-row"><span>B+</span><span>1,760 U</span></div>
+            <div class="stock-row"><span>B-</span><span>620 U</span></div>
+            <div class="stock-row"><span>O+</span><span>3,300 U</span></div>
+            <div class="stock-row"><span>O-</span><span>1,120 U</span></div>
+            <div class="stock-row"><span>AB+</span><span>970 U</span></div>
+            <div class="stock-row"><span>AB-</span><span>490 U</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="success-stories clickable" id="successStoriesSection">
+        <div class="section-heading">
+          <div>
+            <h3>Success Stories</h3>
+            <p>Life-saving experiences from donors, recipients, and families who found help fast through Vital Veins.</p>
+          </div>
+          <small class="section-tip">Click to read more stories</small>
+        </div>
+        <div class="story-grid">
+          <article class="story-card highlighted">
+            <span>Donor hero</span>
+            <p>“I received an urgent notification, donated blood in under an hour, and the very next day the hospital confirmed the transfusion saved a young accident victim.”</p>
+            <footer><strong>Priya K.</strong><small>Donor, New Delhi</small></footer>
+          </article>
+          <article class="story-card">
+            <span>Recipient saved</span>
+            <p>“Within minutes of placing a request, a nearby center responded and arranged blood for our mother. Vital Veins made the difference.”</p>
+            <footer><strong>Arjun S.</strong><small>Family member, Pune</small></footer>
+          </article>
+          <article class="story-card">
+            <span>Hospital partner</span>
+            <p>“We saw a 40% reduction in emergency delays after integrating with Vital Veins. Stock updates and donor profiles are easy to manage.”</p>
+            <footer><strong>Dr. Meera T.</strong><small>Cardiology, Bangalore</small></footer>
+          </article>
+        </div>
+      </section>
+
+      <div class="story-modal hidden" id="storyModal">
+        <div class="story-modal-panel">
+          <button class="modal-close" id="closeStoriesBtn">×</button>
+          <div class="story-modal-header">
+            <h3>Real stories from the Vital Veins community</h3>
+            <p>Explore real-world examples of how donors, recipients, and partner centers are saving lives together.</p>
+          </div>
+          <div class="story-modal-list">
+            <article class="story-detail">
+              <h4>Rohan, Donor</h4>
+              <p>“I was notified about an urgent need for B+ blood nearby. I donated the same day, and my donation reached the receiver within 3 hours. Knowing I helped save a life was unforgettable.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Fatima, Recipient</h4>
+              <p>“My father needed O- blood immediately after an accident. The platform connected us to the right center in minutes, and we were able to receive the blood without any delay.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Dr. Sandeep, Hospital Lead</h4>
+              <p>“We used to spend hours calling blood banks. With Vital Veins, we now see availability instantly, and our emergency response time has improved dramatically.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Neha, Volunteer</h4>
+              <p>“I signed up to donate and got a digital certificate after approval. I can now claim blood for future needs or recommend the service to more people in my community.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Karan, Student Donor</h4>
+              <p>“Being a regular donor through Vital Veins helped me keep track of my eligibility and schedule my donations around exams with ease.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Anita, Mother</h4>
+              <p>“My son needed A+ blood for surgery. The platform showed available units quickly, and the hospital staff reserved the blood without any confusion.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Rahul, Emergency Care Nurse</h4>
+              <p>“I use Vital Veins every shift now. The blood availability data saves us precious time when treating trauma patients.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Ayesha, Social Worker</h4>
+              <p>“I shared the platform with my local group. Several donors responded within minutes to urgent requests from nearby families.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Vikram, Blood Bank Manager</h4>
+              <p>“Stock updates are easier to maintain, and our communication with donors is much faster thanks to Vital Veins.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Meera, Teacher</h4>
+              <p>“After registering as an O- donor, I received a call for an emergency request and felt proud to help a mother in need.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Imran, Ambulance Driver</h4>
+              <p>“With the app, I immediately knew which center had the required blood type and could route the patient without delays.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Sonia, Doctor</h4>
+              <p>“Vital Veins has become a trusted part of our hospital protocol for urgent blood requests.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Pooja, Student</h4>
+              <p>“I donated for the first time after a friend encouraged me to use Vital Veins. The experience was simple and reassuring.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Arav, Fitness Coach</h4>
+              <p>“Knowledge of blood availability and nearby centers made it easy for me to donate and track my donation certificate.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Divya, Corporate Volunteer</h4>
+              <p>“Our workplace blood drive coordinated donors through Vital Veins, and the campaign was a huge success.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Ritu, Organizer</h4>
+              <p>“I used Vital Veins to match donors to an emergency donation camp, and the turnout exceeded our expectations.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Samir, Farmer</h4>
+              <p>“We needed blood for a local accident victim. The platform pointed us to the nearest blood center, and the process was fast.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Tanvi, Young Donor</h4>
+              <p>“Getting my e-certificate felt great. I now know I can support the community whenever there is a need.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Md. Yusuf, Recipient</h4>
+              <p>“I found the exact O+ blood units our hospital required and was able to bring them immediately.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Maya, Parent</h4>
+              <p>“Vital Veins helped us avoid long waits during my daughter’s surgery by locating blood supplies quickly.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Amit, Donor</h4>
+              <p>“I received a notification in the morning and donated before work, knowing I could help someone in need that day.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Nidhi, Caregiver</h4>
+              <p>“The search by location feature helped us find the nearest blood bank immediately.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Rakesh, Blood Bank Staff</h4>
+              <p>“Our inventory matched with active requests better than ever. Now we can prepare for donors and patients in advance.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Priyanka, Volunteer Coordinator</h4>
+              <p>“We used this to coordinate donors across cities, and it saved us from manual calls and spreadsheets.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Kavita, Survivor</h4>
+              <p>“The platform connected me with donors in an emergency, and I’m grateful for every response.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Bhaskar, Father</h4>
+              <p>“Blood availability was visible instantly, and the staff helped us reserve the needed unit quickly.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Shruti, Graduate</h4>
+              <p>“I donated on a weekend and received a certificate I can use in the future. The entire process was smooth.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Neel, Pharmacist</h4>
+              <p>“Our hospital now relies on Vital Veins for emergency blood coordination more than ever.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Jyoti, Donor</h4>
+              <p>“I was able to choose a nearby center and schedule a donation appointment with just a few clicks.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Vikrant, Truck Driver</h4>
+              <p>“I saw a call for help while on the road and made sure to donate as soon as I reached the city.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Sunita, Nurse</h4>
+              <p>“The request support helped us maintain the right stock during a busy week in the emergency ward.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Aditya, College Student</h4>
+              <p>“My first donation was guided by the app, and I felt safe because the nearest center had all my details in advance.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Rina, Social Activist</h4>
+              <p>“We spread awareness through the platform and encouraged a wave of volunteers in our neighborhood.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Girish, Volunteer</h4>
+              <p>“Tracking blood stock and arriving donors made our volunteer shift far more effective.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Priyanka, Recipient</h4>
+              <p>“I got the exact B- unit in time, and the staff said our request had been pushed directly to nearby donors.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Shyam, Donor</h4>
+              <p>“I now donate regularly, and the platform’s reminders help me stay eligible and informed.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Madhu, Recovery Patient</h4>
+              <p>“Vital Veins helped us through a critical week by guiding us to multiple centers with available stock.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Sara, Community Leader</h4>
+              <p>“We organized a blood donation drive using Vital Veins’ donor network and saw a stronger response than ever.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Ritesh, Doctor</h4>
+              <p>“The system’s fast communication reduced the stress of emergency blood procurement at our city hospital.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Priya, Nurse Assistant</h4>
+              <p>“We could update stock and inform all nearby users in a matter of minutes during a shortage.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Divya, Young Activist</h4>
+              <p>“The app made it easy for me to volunteer and encourage my friends to donate right away.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Kumar, Driver</h4>
+              <p>“Emergency requests showed me the nearest center clearly, and I could support a patient in a different city.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Lakshmi, Donor</h4>
+              <p>“I now have my own digital certificate and feel proud to be part of the saving community.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Arun, Father</h4>
+              <p>“Our family received an urgent call, and the app helped us locate blood quickly without any chaos.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Salma, Educator</h4>
+              <p>“I recommend Vital Veins to every parent because it streamlines blood support when it matters most.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Naveen, Donor</h4>
+              <p>“The user-friendly flow made donating easy even for someone doing it for the first time.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Minu, Recipient</h4>
+              <p>“We found the right blood type in a few minutes and were able to stop the emergency from getting worse.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Sachin, Volunteer</h4>
+              <p>“The platform mobilized donors quickly during a local festival when the need was high.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Shreya, Donor</h4>
+              <p>“I appreciate how securely the platform handles my data while still letting me help people quickly.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Manish, Hospital Admin</h4>
+              <p>“The digital certificate capability allows donors to reclaim units later, which is a meaningful incentive.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Sonia, Receiver</h4>
+              <p>“The most important part was the calm communication from the blood center after the request was accepted.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Priya, Campus Volunteer</h4>
+              <p>“Our college blood drive got more volunteers because they could sign up and track everything through the same system.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Vinod, Donor</h4>
+              <p>“I love that I can search donors and centers by location, especially during city-wide emergencies.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Leena, Nurse</h4>
+              <p>“I recommended this to my hospital team, and we’re now able to manage urgent blood needs much better.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Rohit, Emergency Coordinator</h4>
+              <p>“The fast assistance and reduced paperwork save us hours every week in hospital logistics.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Prisha, Donor</h4>
+              <p>“I received an instant alert for an urgent AB+ need and knew exactly where to donate before dinner.”</p>
+            </article>
+            <article class="story-detail">
+              <h4>Abhay, Recipient</h4>
+              <p>“My blood request was addressed within minutes, and the response felt incredibly supportive.”</p>
+            </article>
+          </div>
+        </div>
+      </div>
+
+      <section class="overview-cards">
+        <article>
+          <h3>Fast Communication</h3>
+          <p>Direct messaging between users and centers helps confirm availability and schedule donations without paper forms or long waits.</p>
+        </article>
+        <article>
+          <h3>Smart Stock Management</h3>
+          <p>Blood banks monitor inventory and request donors based on blood group demand and regional needs using a shared dashboard.</p>
+        </article>
+      </section>
+
+      <section class="workflow">
+        <div class="workflow-card">
+          <h3>How it works</h3>
+          <ol>
+            <li>Choose Donate or Need Blood.</li>
+            <li>Sign in securely and confirm your blood group.</li>
+            <li>Search by blood type and location.</li>
+            <li>View nearest center, request support, or get donation appointment details.</li>
+          </ol>
+        </div>
+        <div class="story-card">
+          <h3>Featured Certificate</h3>
+          <p>Donors receive a digital e-certificate after approval. It can be used later to claim one unit of blood anytime from any partner center.</p>
+          <img src="Gemini_Generated_Image_ypqjblypqjblypqj.png" alt="Featured Certificate" style="width: 100%; max-width: 300px; border-radius: 12px; margin-top: 16px;" />
+        </div>
+      </section>
+
+      <section class="centers-preview">
+        <div>
+          <h3>Top centers in the network</h3>
+          <p>Our network includes hospitals and blood banks with verified stock and fast response times.</p>
+        </div>
+        <div class="center-cards">
+          <article>
+            <h4>City Care Blood Bank</h4>
+            <p>Nearest donor center with active stock updates.</p>
+          </article>
+          <article>
+            <h4>Green Valley Hospital</h4>
+            <p>Supports urgent requests and fast transport coordination.</p>
+          </article>
+          <article>
+            <h4>Hope Donation Center</h4>
+            <p>Provides free consultation and safe donation scheduling.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-overlay hidden" id="authModal">
+    <div class="modal-panel">
+      <button class="close-button" id="closeModal">×</button>
+      <div class="auth-tabs">
+        <button class="tab active" data-view="login">Log In</button>
+        <button class="tab" data-view="signup">Sign Up</button>
+      </div>
+
+      <form id="loginForm" class="auth-form active">
+        <h2>Log in to Vital Veins</h2>
+        <label>Email<input type="email" id="loginEmail" required /></label>
+        <label>Password<input type="password" id="loginPassword" required /></label>
+        <button type="submit" class="primary">Continue</button>
+      </form>
+
+      <form id="signupForm" class="auth-form">
+        <h2>Create an account</h2>
+        <label>Full name<input type="text" id="signupName" required /></label>
+        <label>Email<input type="email" id="signupEmail" required /></label>
+        <label>Password<input type="password" id="signupPassword" required /></label>
+        <label>Blood group
+          <select id="signupBlood" required>
+            <option value="">Select blood type</option>
+            <option>A+</option>
+            <option>A-</option>
+            <option>B+</option>
+            <option>B-</option>
+            <option>O+</option>
+            <option>O-</option>
+            <option>AB+</option>
+            <option>AB-</option>
+          </select>
+        </label>
+        <label>Location<input type="text" id="signupLocation" placeholder="City or area" required /></label>
+        <div class="otp-block">
+          <button type="button" class="secondary" id="sendOtpBtn">Send OTP</button>
+          <small id="otpStatus" class="otp-status">Send OTP to verify your email before creating the account.</small>
+        </div>
+        <label>Email OTP<input type="text" id="signupOtp" maxlength="6" placeholder="Enter 6-digit OTP" required /></label>
+        <button type="submit" class="primary" id="verifyOtpBtn">Verify OTP & Register</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="panel hidden" id="dashboardPanel">
+    <div class="panel-header">
+      <div>
+        <h2 id="dashboardTitle">Search blood availability</h2>
+        <p>Find the right blood type and nearest center in your area.</p>
+      </div>
+      <button class="secondary" id="logoutBtn">Log Out</button>
+    </div>
+
+    <section class="search-panel">
+      <div class="search-fields">
+        <label>Blood type<select id="filterType"><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select></label>
+        <label>Location<input type="text" id="filterLocation" placeholder="Enter city or area" /></label>
+      </div>
+      <div class="search-actions">
+        <button class="primary" id="searchBtn">Search</button>
+        <button class="secondary" id="emergencyBtn">Emergency Request</button>
+      </div>
+    </section>
+
+    <section class="results-panel">
+      <div class="result-summary">
+        <div>
+          <h3>Nearest center</h3>
+          <p id="topCenterLabel">Auto-selected based on your location.</p>
+        </div>
+      </div>
+      <div id="centerList" class="center-list"></div>
+    </section>
+
+    <section class="details-panel hidden" id="centerDetails">
+      <div class="details-header">
+        <h3 id="detailName"></h3>
+        <span class="badge" id="detailStatus">Verified</span>
+      </div>
+      <p id="detailAddress"></p>
+      <div class="detail-meta">
+        <div><strong>Distance</strong><span id="detailDistance"></span></div>
+        <div><strong>Available stock</strong><span id="detailStock"></span></div>
+      </div>
+      <div class="center-actions">
+        <button class="primary" id="requestApprovalBtn">Request Approval</button>
+        <a class="link-button" id="mapsLink" target="_blank" rel="noreferrer">Open in OpenStreetMap</a>
+      </div>
+      <div class="certificate-card hidden" id="certificateCard">
+        <h4>Digital E-Certificate</h4>
+        <p>You are approved to claim one unit of blood from any partner center.</p>
+        <div class="certificate-image">
+          <div class="certificate-image-frame">
+            <div class="certificate-image-heading">
+              <span class="image-dot"></span>
+              <strong>Vital Veins Certificate</strong>
+            </div>
+            <div class="certificate-image-body">
+              <h5>Donation Approved</h5>
+              <p>Valid for 1 unit of blood from any partner center.</p>
+              <div class="certificate-image-meta">
+                <span>Donor: <strong id="certPreviewName">User</strong></span>
+                <span>Code: <strong id="certPreviewCode">CERT-0000</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="certificate-preview">
+          <img src="Gemini_Generated_Image_ypqjblypqjblypqj.png" alt="Certificate preview" />
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Need Blood Flow Panel -->
+  <div class="panel hidden" id="needBloodPanel">
+    <nav class="panel-nav">
+      <div class="nav-logo">🩸 Need Blood</div>
+      <div class="nav-center"><h2>Find Blood Availability</h2></div>
+      <button class="nav-close" id="closeNeedBtn">✕</button>
+    </nav>
+    <div class="panel-header">
+      <p>Search and filter blood banks in your area by blood type.</p>
+      <div class="location-banner" id="needLocationStatus">Using your saved location for nearby results.</div>
+    </div>
+    <section class="search-panel">
+      <div class="search-fields">
+        <label>Blood Type Required<select id="needBloodType"><option value="">All Types</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select></label>
+        <label>Location<input type="text" id="needLocation" placeholder="Enter city or area" /></label>
+      </div>
+      <div class="search-actions">
+        <button class="primary" id="searchNeedBtn">Search Blood Banks</button>
+      </div>
+    </section>
+    <section class="results-panel">
+      <div class="nearby-map-panel">
+        <div class="nearby-map-header">
+          <h3>Nearby centers map</h3>
+          <p>Numbered markers match the list below.</p>
+        </div>
+        <div id="needResultsMap" class="results-map"></div>
+      </div>
+      <div id="needBloodList" class="blood-bank-list"></div>
+    </section>
+    <section class="blood-bank-details hidden" id="needBankDetails">
+      <button class="secondary" id="backFromNeedDetails">← Back to List</button>
+      <div class="bank-header">
+        <h3 id="needBankName"></h3>
+        <span class="bank-type-badge" id="needBankType"></span>
+      </div>
+      <div class="bank-gallery" id="needBankGallery"></div>
+      <div class="bank-info-grid">
+        <div><strong>Address</strong><p id="needBankAddress"></p></div>
+        <div><strong>Phone</strong><p id="needBankPhone"></p></div>
+        <div><strong>Distance</strong><p id="needBankDistance"></p></div>
+        <div><strong>Available Stock</strong><p id="needBankStock"></p></div>
+      </div>
+      <div class="bank-rating">
+        <div><strong>⭐ Rating</strong><p id="needBankRating"></p></div>
+        <div><strong>Reviews</strong><p id="needBankReviews"></p></div>
+      </div>
+      <div class="map-frame">
+        <iframe id="needBankMap" title="Blood bank location map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <div class="review-panel">
+        <h4>Recent Reviews</h4>
+        <div id="needBankReviewList" class="review-list"></div>
+      </div>
+      <button class="primary" id="viewOnMapsBtn" style="width: 100%; margin-top: 18px;">View Location on Map</button>
+    </section>
+  </div>
+
+  <!-- Donate Blood Flow Panel -->
+  <div class="panel hidden" id="donateBloodPanel">
+    <nav class="panel-nav">
+      <div class="nav-logo">🩸 Donate Blood</div>
+      <div class="nav-center"><h2>Find Donation Centers</h2></div>
+      <button class="nav-close" id="closeDonateBtn">✕</button>
+    </nav>
+    <div class="panel-header">
+      <p>Browse high-rated donation centers and blood banks near you.</p>
+      <div class="location-banner" id="donateLocationStatus">Looking up nearby centers from your profile location.</div>
+    </div>
+    <section class="search-panel">
+      <div class="search-fields">
+        <label>Blood Type<select id="donateBloodType" value="A+"><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select></label>
+        <label>Location<input type="text" id="donateLocation" placeholder="Enter city or area" /></label>
+      </div>
+      <div class="search-actions">
+        <button class="primary" id="searchDonateBtn">Find Centers</button>
+      </div>
+    </section>
+    <section class="results-panel">
+      <div class="result-summary" id="donateNearestSummary">
+        <div>
+          <h3>Nearest donation center</h3>
+          <p id="donateNearestLabel">We will show the closest center based on your location.</p>
+        </div>
+        <div class="nearest-center-meta">
+          <strong id="donateNearestAddress">Address will appear here.</strong>
+          <a id="donateNearestPhone" href="tel:" class="nearest-center-phone">Contact number will appear here.</a>
+        </div>
+      </div>
+      <div class="nearby-map-panel">
+        <div class="nearby-map-header">
+          <h3>Nearby donation map</h3>
+          <p>Marker 1 is the closest center in the list.</p>
+        </div>
+        <div id="donateResultsMap" class="results-map"></div>
+      </div>
+      <div id="donateCenterList" class="blood-bank-list"></div>
+    </section>
+    <section class="donation-form hidden" id="donationFormPanel">
+      <button class="secondary" id="backFromDonationForm">← Back to Centers</button>
+      <div class="selected-center-card" id="selectedDonationCenter">
+        <div class="selected-center-copy">
+          <span class="eyebrow-chip">Selected Center</span>
+          <h3 id="selectedDonateName"></h3>
+          <p id="selectedDonateMeta"></p>
+        </div>
+        <div class="selected-center-actions">
+          <a class="link-button" id="selectedDonateMaps" target="_blank" rel="noreferrer">Open in OpenStreetMap</a>
+        </div>
+      </div>
+      <div class="bank-gallery compact" id="donateBankGallery"></div>
+      <div class="form-section">
+        <h3>Donor Medical Information</h3>
+        <div class="form-group">
+          <label>Your Age (years)<input type="number" id="donorAge" min="18" max="120" required /></label>
+          <small id="ageWarning" class="warning hidden"></small>
+        </div>
+        <div class="form-group">
+          <label>Do you smoke?<select id="smokeStatus" required><option value="">Select</option><option value="no">No</option><option value="yes">Yes</option></select></label>
+        </div>
+        <div class="form-group">
+          <label>Do you drink alcohol?<select id="drinkStatus" required><option value="">Select</option><option value="no">No</option><option value="yes">Yes</option><option value="occasionally">Occasionally</option></select></label>
+          <small id="alcoholWarning" class="warning hidden">⚠ You must wait 40 hours after drinking before donating.</small>
+        </div>
+        <div class="form-group">
+          <label>Aadhar Card Number<input type="text" id="aadharCard" placeholder="XXXX XXXX XXXX" maxlength="12" required /></label>
+        </div>
+        <div class="form-group">
+          <label>Have you donated blood before?<select id="donatedBefore" required><option value="">Select</option><option value="no">No</option><option value="yes">Yes</option></select></label>
+        </div>
+        <div id="donationHistorySection" class="hidden">
+          <label>When did you last donate?<input type="date" id="lastDonationDate" required /></label>
+          <small id="donationWaitingWarning" class="warning hidden">⚠ You must wait 90 days between donations. You can donate again after: <strong id="canDonateDate"></strong></small>
+        </div>
+        <div id="firstDonationCampSection" class="camp-panel hidden">
+          <h4>Recommended Donation Camps For First-Time Donors</h4>
+          <div id="donationCampList" class="camp-list"></div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Donation Guidelines</h3>
+        <div class="guidelines-section">
+          <h4>✓ Important Requirements:</h4>
+          <ul>
+            <li>You must be between 18-65 years old</li>
+            <li>Minimum weight: 50 kg</li>
+            <li>Wait 40 hours after alcohol consumption</li>
+            <li>Wait 48 hours after taking antibiotics</li>
+            <li>Do not donate on an empty stomach - eat a healthy meal</li>
+            <li>Drink plenty of water - stay hydrated</li>
+            <li>Wait 90 days between donations</li>
+          </ul>
+          <h4>✓ Before Donating:</h4>
+          <ul>
+            <li>Have a nutritious meal 2-3 hours before</li>
+            <li>Avoid fatty foods - eat fruits, vegetables, and iron-rich foods</li>
+            <li>Drink water or juice before donating</li>
+            <li>Get adequate sleep the night before</li>
+            <li>Wear comfortable, loose-fitting clothing</li>
+          </ul>
+          <h4>✓ After Donating:</h4>
+          <ul>
+            <li>Rest for at least 10-15 minutes</li>
+            <li>Have a snack and drink fluids immediately</li>
+            <li>Avoid strenuous activity for 24 hours</li>
+            <li>Increase iron intake over next few days</li>
+            <li>Avoid smoking and alcohol for at least 24 hours</li>
+          </ul>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="primary" id="submitDonationBtn" style="width: 100%; margin-top: 18px;">Book Donation Appointment</button>
+      </div>
+      <section class="appointment-card hidden" id="donationAppointmentCard">
+        <div class="appointment-card-head">
+          <div>
+            <span class="eyebrow-chip">Donation Appointment</span>
+            <h3 id="appointmentCenterName">Center name</h3>
+          </div>
+          <span class="appointment-status" id="appointmentStatusBadge">Booked</span>
+        </div>
+        <p id="appointmentSummary">Your booking details will appear here.</p>
+        <div class="appointment-grid">
+          <div><strong>Appointment Time</strong><p id="appointmentTime">-</p></div>
+          <div><strong>Center Address</strong><p id="appointmentAddress">-</p></div>
+          <div><strong>Contact Number</strong><p id="appointmentPhone">-</p></div>
+          <div><strong>Certificate Code</strong><p id="appointmentCertificateCode">Pending center confirmation</p></div>
+        </div>
+        <div class="appointment-actions">
+          <button class="secondary" id="simulateCenterConfirmBtn" type="button">Center Confirms Donation</button>
+        </div>
+      </section>
+      <section class="certificate-card hidden" id="donationCertificateCard">
+        <h4>Digital E-Certificate</h4>
+        <p>Your certificate becomes active as soon as the center confirms the completed donation.</p>
+        <div class="certificate-image">
+          <div class="certificate-image-frame">
+            <div class="certificate-image-heading">
+              <span class="image-dot"></span>
+              <strong>Vital Veins Certificate</strong>
+            </div>
+            <div class="certificate-image-body">
+              <h5>Donation Approved</h5>
+              <p>Valid for 1 unit of blood from any partner center.</p>
+              <div class="certificate-image-meta">
+                <span>Donor: <strong id="donationCertPreviewName">User</strong></span>
+                <span>Code: <strong id="donationCertPreviewCode">CERT-0000</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="certificate-preview">
+          <img src="Gemini_Generated_Image_ypqjblypqjblypqj.png" alt="Certificate preview" />
+        </div>
+      </section>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "vital-veins",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Vital Veins full-stack demo with OTP signup and nearest blood-bank lookup.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "mongoose": "^9.4.1",
+    "nodemailer": "^8.0.4"
+  }
+}
